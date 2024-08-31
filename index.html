@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtragem de Palavras</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/gif" href="https://cliply.co/wp-content/uploads/2021/08/372108630_DISCORD_LOGO_BLACK_400.gif">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <div class="theme-toggle">
+            <i id="themeToggleIcon" class="fas fa-moon"></i> <!-- Ícone da lua como padrão -->
+        </div>
+        <h1>Filtrar Palavras</h1>
+        <input type="file" id="folderPicker" webkitdirectory directory multiple>
+        <label class="file-label" for="folderPicker">
+            <i class="fas fa-folder-open"></i> Selecionar Pasta
+        </label>
+        <textarea id="inputKeywords" placeholder="Digite as palavras-chave, uma por linha"></textarea>
+        <button onclick="filtrarPalavras()">
+            <i class="fas fa-filter"></i> Filtrar
+        </button>
+        <button id="downloadBtn" style="display:none;" onclick="baixarResultado()">
+            <i class="fas fa-download"></i> Baixar Resultado
+        </button>
+        <textarea id="result" readonly placeholder="Linhas filtradas aparecerão aqui"></textarea>
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <!-- Botões de redes sociais -->
+    <div class="social-buttons">
+        <a href="https://discord.gg/td3" target="_blank" class="social-button discord">
+            <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://www.youtube.com/@hardzy" target="_blank" class="social-button youtube">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://github.com/0xhz" target="_blank" class="social-button github">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

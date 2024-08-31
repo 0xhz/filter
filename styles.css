@@ -1,0 +1,188 @@
+/* Estilos gerais para o corpo */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #2f3136, #23272a); /* Gradiente de fundo do Discord */
+    color: #dcddde; /* Cor de texto clara */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estilo para o modo claro */
+body.light-mode {
+    background: linear-gradient(135deg, #ffffff, #e0e0e0); /* Gradiente de fundo claro */
+    color: #000000; /* Cor do texto escuro */
+}
+
+.container {
+    background: #36393f; /* Fundo da caixa de conteúdo no modo escuro */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Estilo da caixa de conteúdo no modo claro */
+body.light-mode .container {
+    background: #f0f0f0; /* Fundo claro da caixa de conteúdo */
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+textarea {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #4f545c; /* Borda escura */
+    background-color: #2f3136; /* Fundo escuro */
+    color: #dcddde; /* Cor do texto */
+    resize: vertical;
+    font-size: 16px;
+}
+
+/* Estilo para textarea no modo claro */
+body.light-mode textarea {
+    background-color: #ffffff; /* Fundo claro */
+    color: #000000; /* Cor do texto escuro */
+    border: 1px solid #b9bbbe; /* Borda clara */
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: #7289da; /* Cor do ícone */
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #4f545c;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #3a3b3c;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilo da etiqueta de arquivo no modo claro */
+body.light-mode .file-label {
+    background-color: #ffffff; /* Fundo claro */
+    color: #000000; /* Cor do texto escuro */
+    border: 1px solid #b9bbbe; /* Borda clara */
+}
+
+.file-label:hover {
+    background-color: #2f3136;
+}
+
+/* Estilo dos botões */
+button {
+    background: #5865f2; /* Cor dos botões (azul do Discord) */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Estilo dos botões no modo claro */
+body.light-mode button {
+    background: #5865f2; /* Azul do Discord */
+}
+
+button:hover {
+    background: #4752c4; /* Azul mais escuro do Discord */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* Efeito de brilho */
+    transform: scale(1.05); /* Leve aumento de tamanho */
+}
+
+body.light-mode button:hover {
+    background: #4752c4; /* Azul mais escuro do Discord */
+}
+
+button i {
+    font-size: 16px;
+}
+
+textarea#result {
+    height: 200px;
+    overflow-y: auto;
+}
+
+.notification {
+    background: #43b581; /* Verde para sucesso */
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Estilo do toggle de tema */
+.theme-toggle {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-toggle i {
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Estilo do ícone ativo */
+.theme-toggle i.active {
+    color: #7289da; /* Cor ao passar o mouse */
+}
+
+/* Estilo dos botões sociais flutuantes */
+.social-buttons {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: #36393f;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.social-button i {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.social-button:hover {
+    background: #2f3136;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* Efeito de brilho */
+}

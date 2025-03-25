@@ -13,46 +13,48 @@ document.getElementById('themeToggleIcon').addEventListener('click', function() 
     }
 });
 
+function removerTextoDepoisDoEspaco(linha) {
+    return linha.split(' ')[0];
+}
+
 function filtrarPalavras() {
     const inputKeywords = document.getElementById('inputKeywords').value.trim().split('\n');
     const files = document.getElementById('folderPicker').files;
     const result = document.getElementById('result');
     const notification = document.getElementById('notification');
     let totalFilteredLines = 0;
-    let filteredLines = new Set(); // Usar Set para evitar duplicatas
+    let filteredLines = new Set();
     let fileCount = 0;
+    let validFiles = Array.from(files).filter(file => file.name.toLowerCase().endsWith('.txt'));
 
-    if (files.length === 0) {
-        alert('Por favor, selecione uma pasta.');
+    if (validFiles.length === 0) {
+        alert('Por favor, selecione uma pasta contendo apenas arquivos .txt.');
         return;
     }
 
-    Array.from(files).forEach(file => {
-        if (file.name.toLowerCase().endsWith('.txt')) {
-            fileCount++;
-            const reader = new FileReader();
+    validFiles.forEach(file => {
+        fileCount++;
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            const lines = event.target.result.split('\n').map(line => removerTextoDepoisDoEspaco(line));
+            const filtered = lines.filter(line => 
+                inputKeywords.some(keyword => line.toLowerCase().includes(keyword.toLowerCase()))
+            );
             
-            reader.onload = function(event) {
-                const lines = event.target.result.split('\n');
-                const filtered = lines.filter(line => 
-                    inputKeywords.some(keyword => line.toLowerCase().includes(keyword.toLowerCase()))
-                );
-                
-                filtered.forEach(line => filteredLines.add(line)); // Adicionar linhas filtradas
-                totalFilteredLines += filtered.length;
+            filtered.forEach(line => filteredLines.add(line));
+            totalFilteredLines += filtered.length;
 
-                // Atualizar o resultado e a notificação
-                result.value = Array.from(filteredLines).join('\n');
-                notification.textContent = `Linhas filtradas: ${totalFilteredLines}`;
-                notification.style.display = 'block';
-                
-                if (fileCount === files.length) {
-                    document.getElementById('downloadBtn').style.display = 'block'; // Mostrar botão de download quando todos os arquivos forem processados
-                }
-            };
+            result.value = Array.from(filteredLines).join('\n');
+            notification.textContent = `Linhas filtradas: ${totalFilteredLines}`;
+            notification.style.display = 'block';
             
-            reader.readAsText(file);
-        }
+            if (fileCount === validFiles.length) {
+                document.getElementById('downloadBtn').style.display = 'block';
+            }
+        };
+        
+        reader.readAsText(file);
     });
 }
 

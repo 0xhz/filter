@@ -3,33 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filtragem de Palavras</title>
+    <title>Filtragem de Listas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/gif" href="https://cliply.co/wp-content/uploads/2021/08/372108630_DISCORD_LOGO_BLACK_400.gif">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="dark-mode">
-    <div class="container">
-        <div class="theme-toggle">
-            <i id="themeToggleIcon" class="fas fa-moon"></i> <!-- Ícone da lua como padrão -->
+    <div class="app">
+        <!-- Tela de seleção de modo -->
+        <div id="modeScreen" class="screen">
+            <div class="theme-toggle-top">
+                <i id="themeToggleIcon" class="fas fa-moon"></i>
+            </div>
+            <h1 class="app-title">Filtragem de Listas</h1>
+            <p class="app-subtitle">Escolha o tipo de filtro que deseja usar</p>
+            <div class="mode-cards">
+                <button id="btnModeEmail" class="mode-card">
+                    <div class="mode-icon"><i class="fas fa-envelope"></i></div>
+                    <h2>Filtro de E-mails</h2>
+                    <p>Filtra linhas por palavras-chave em pastas ou arquivos .txt</p>
+                </button>
+                <button id="btnModeULP" class="mode-card mode-card-ulp">
+                    <div class="mode-icon"><i class="fas fa-key"></i></div>
+                    <h2>Filtro ULP</h2>
+                    <p>Limpa listas URL:Login:Password e extrai login:senha</p>
+                </button>
+            </div>
         </div>
-        <h1>Filtrar Palavras</h1>
-        <input type="file" id="folderPicker" webkitdirectory directory multiple>
-        <label class="file-label" for="folderPicker">
-            <i class="fas fa-folder-open"></i> Selecionar Pasta
-        </label>
-        <textarea id="inputKeywords" placeholder="Digite as palavras-chave, uma por linha"></textarea>
-        <button onclick="filtrarPalavras()">
-            <i class="fas fa-filter"></i> Filtrar
-        </button>
-        <button id="downloadBtn" style="display:none;" onclick="baixarResultado()">
-            <i class="fas fa-download"></i> Baixar Resultado
-        </button>
-        <textarea id="result" readonly placeholder="Linhas filtradas aparecerão aqui"></textarea>
+
+        <!-- Modo E-mails -->
+        <div id="emailScreen" class="screen hidden">
+            <div class="screen-header">
+                <button id="btnBackEmail" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <h1><i class="fas fa-envelope"></i> Filtro de E-mails</h1>
+            </div>
+            <div class="file-inputs">
+                <input type="file" id="emailFilePicker" accept=".txt" multiple>
+                <label class="file-label" for="emailFilePicker">
+                    <i class="fas fa-file-alt"></i> Selecionar Arquivo(s)
+                </label>
+                <input type="file" id="emailFolderPicker" webkitdirectory directory multiple>
+                <label class="file-label file-label-secondary" for="emailFolderPicker">
+                    <i class="fas fa-folder-open"></i> Selecionar Pasta
+                </label>
+            </div>
+            <div id="fileInfo" class="file-info hidden"></div>
+            <textarea id="inputKeywords" placeholder="Digite as palavras-chave, uma por linha"></textarea>
+            <div class="action-row">
+                <button id="emailFilterBtn" class="btn-primary">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+                <button id="downloadBtn" class="btn-secondary hidden">
+                    <i class="fas fa-download"></i> Baixar Resultado
+                </button>
+            </div>
+        </div>
+
+        <!-- Modo ULP -->
+        <div id="ulpScreen" class="screen hidden">
+            <div class="screen-header">
+                <button id="btnBackULP" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <h1><i class="fas fa-key"></i> Filtro ULP</h1>
+            </div>
+            <p class="ulp-hint">Filtra linhas que contenham a palavra-chave (URL, login ou senha) e extrai <code>login:senha</code></p>
+            <div class="file-inputs">
+                <input type="file" id="ulpFilePicker" accept=".txt" multiple>
+                <label class="file-label" for="ulpFilePicker">
+                    <i class="fas fa-file-alt"></i> Selecionar Arquivo(s)
+                </label>
+                <input type="file" id="ulpFolderPicker" webkitdirectory directory multiple>
+                <label class="file-label file-label-secondary" for="ulpFolderPicker">
+                    <i class="fas fa-folder-open"></i> Selecionar Pasta
+                </label>
+            </div>
+            <div id="ulpFileInfo" class="file-info hidden"></div>
+            <div class="credential-type-group">
+                <span class="credential-label">Tipo de credencial:</span>
+                <div class="credential-options">
+                    <label class="credential-option">
+                        <input type="radio" name="ulpCredentialType" value="email">
+                        <i class="fas fa-envelope"></i>
+                        <span>E-mail e senha</span>
+                    </label>
+                    <label class="credential-option">
+                        <input type="radio" name="ulpCredentialType" value="login">
+                        <i class="fas fa-user"></i>
+                        <span>Login e senha</span>
+                    </label>
+                    <label class="credential-option active">
+                        <input type="radio" name="ulpCredentialType" value="both" checked>
+                        <i class="fas fa-layer-group"></i>
+                        <span>Ambos</span>
+                    </label>
+                </div>
+            </div>
+            <textarea id="ulpKeywords" placeholder="Digite as palavras-chave, uma por linha"></textarea>
+            <div class="action-row">
+                <button id="ulpFilterBtn" class="btn-primary btn-ulp">
+                    <i class="fas fa-filter"></i> Filtrar ULP
+                </button>
+                <button id="ulpDownloadBtn" class="btn-secondary hidden">
+                    <i class="fas fa-download"></i> Baixar Resultado
+                </button>
+            </div>
+        </div>
+
+        <!-- Painel de progresso compartilhado -->
+        <div id="progressPanel" class="progress-panel hidden">
+            <div class="progress-header">
+                <span id="progressStatus">Preparando...</span>
+                <span id="progressPercent" class="progress-percent">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div id="progressStats" class="progress-stats"></div>
+            <div class="control-row">
+                <button id="stopBtn" class="btn-stop hidden">
+                    <i class="fas fa-pause"></i> Parar
+                </button>
+                <button id="resumeBtn" class="btn-resume hidden">
+                    <i class="fas fa-play"></i> Continuar
+                </button>
+                <button id="cancelBtn" class="btn-cancel hidden">
+                    <i class="fas fa-times"></i> Encerrar
+                </button>
+            </div>
+        </div>
+
+        <textarea id="result" readonly placeholder="Resultado aparecerá aqui durante o processamento..."></textarea>
         <div id="notification" class="notification"></div>
     </div>
 
-    <!-- Botões de redes sociais -->
     <div class="social-buttons">
         <a href="https://discord.gg/td3" target="_blank" class="social-button discord">
             <i class="fab fa-discord"></i>
@@ -42,6 +147,6 @@
         </a>
     </div>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
